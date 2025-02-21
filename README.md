@@ -53,7 +53,7 @@ pip3.10 --version
 Клонируйте репозиторий `nexus-node-id-finder` на ваш сервер:
 
 ```bash
-git clone git@github.com:cyberomanov/nexus-node-id-finder.git
+git clone https://github.com/cyberomanov/nexus-node-id-finder.git
 cd nexus-node-id-finder
 ```
 ### Шаг 2: Откройте окно tmux
