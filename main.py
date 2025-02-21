@@ -18,7 +18,7 @@ def process_payloads_concurrently(payloads: list[str], interval: int = 1):
             with get_proxied_session(proxy=mobile_proxy) as session:
                 with ThreadPoolExecutor(max_workers=len(pending_payloads)) as executor:
                     future_to_payload = {
-                        executor.submit(session.post, url, data=payload): payload
+                        executor.submit(session.post, url, data=payload, timeout=10): payload
                         for payload in pending_payloads
                     }
                     for future in as_completed(future_to_payload):
@@ -27,7 +27,6 @@ def process_payloads_concurrently(payloads: list[str], interval: int = 1):
                             response = future.result()
                             if response.status_code == 200:
                                 print(f"{payload}: {response.text}.")
-                                pending_payloads.remove(payload)
                             else:
                                 print(f"{payload}: {response.text}.")
                         except requests.exceptions.Timeout:
