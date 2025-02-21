@@ -25,8 +25,11 @@ def process_payloads_concurrently(payloads: list[str], interval: int = 1):
                         payload = future_to_payload[future]
                         try:
                             response = future.result()
-                            print(f"{payload}: {response.text}.")
-                            pending_payloads.remove(payload)
+                            if response.status_code == 200:
+                                print(f"{payload}: {response.text}.")
+                                pending_payloads.remove(payload)
+                            else:
+                                print(f"{payload}: {response.text}.")
                         except requests.exceptions.Timeout:
                             print(f"{payload}: timeout.")
                         except Exception as e:
