@@ -18,7 +18,7 @@ def process_payloads_concurrently(payloads: list[str], interval: int = 1):
             with get_proxied_session(proxy=mobile_proxy) as session:
                 with ThreadPoolExecutor(max_workers=len(pending_payloads)) as executor:
                     future_to_payload = {
-                        executor.submit(session.post, url, data=payload, timeout=31): payload
+                        executor.submit(session.post, url, data=payload, timeout=10): payload
                         for payload in pending_payloads
                     }
                     for future in as_completed(future_to_payload):
